@@ -1,0 +1,19 @@
+# IntelliJ / IDEA
+.idea/
+*.iml
+
+# Java
+target/
+out/
+
+# Node / React Native
+node_modules/
+.expo/
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
