@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15.6
+    container_name: easydiet-postgres
+    environment:
+      POSTGRES_DB: easydiet
+      POSTGRES_USER: easydiet
+      POSTGRES_PASSWORD: easydiet
+    ports:
+      - "5432:5432"
+    volumes:
+      - easydiet_pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: easydiet-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@easydiet.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+
+volumes:
+  easydiet_pgdata:

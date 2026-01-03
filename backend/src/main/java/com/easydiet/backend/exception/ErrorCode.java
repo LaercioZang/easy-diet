@@ -1,0 +1,23 @@
+package com.easydiet.backend.exception;
+
+public enum ErrorCode {
+
+    // === VALIDATION ===
+    INVALID_ARGUMENT,
+    NULL_VALUE,
+    OUT_OF_RANGE,
+
+    // === NUTRITION ENGINE ===
+    UNSUPPORTED_DIET,
+    INVALID_GOAL,
+    INVALID_CALORIES,
+
+    // === MEAL ENGINE ===
+    INVALID_MEALS_PER_DAY,
+
+    // === ADJUSTMENT ENGINE ===
+    INVALID_BASE_CALORIES,
+
+    // === GENERIC ===
+    INTERNAL_ERROR
+}
