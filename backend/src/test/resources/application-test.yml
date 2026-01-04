@@ -1,7 +1,12 @@
 spring:
-  flyway:
-    enabled: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/easydiet
+    username: easydiet
+    password: easydiet
 
-  sql:
-    init:
-      mode: never
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+  flyway:
+    enabled: true

@@ -1,53 +1,71 @@
+-- Enable UUID generation
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
--- diet_type
+-- =========================
+-- DIET TYPE (catalog)
+-- =========================
 CREATE TABLE diet_type (
     id UUID PRIMARY KEY,
     code VARCHAR(50) NOT NULL UNIQUE,
     name VARCHAR(100) NOT NULL,
-    active BOOLEAN NOT NULL
+    active BOOLEAN NOT NULL DEFAULT true
 );
 
--- food_category
+-- =========================
+-- FOOD CATEGORY (catalog)
+-- =========================
 CREATE TABLE food_category (
     id UUID PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
+    code VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL,
+    active BOOLEAN NOT NULL DEFAULT true
 );
 
--- food
+-- =========================
+-- FOOD (base food per 100g)
+-- =========================
 CREATE TABLE food (
     id UUID PRIMARY KEY,
     name VARCHAR(150) NOT NULL,
-    category_id UUID NOT NULL,
-    calories_per_100g INTEGER NOT NULL,
-    protein_per_100g DECIMAL(10,2) NOT NULL,
-    carbs_per_100g DECIMAL(10,2) NOT NULL,
-    fat_per_100g DECIMAL(10,2) NOT NULL,
-    active BOOLEAN NOT NULL,
 
+    category_id UUID NOT NULL,
     CONSTRAINT fk_food_category
         FOREIGN KEY (category_id)
-        REFERENCES food_category (id)
+        REFERENCES food_category (id),
+
+    calories INTEGER NOT NULL,
+    protein DECIMAL(6,2) NOT NULL,
+    carbs DECIMAL(6,2) NOT NULL,
+    fat DECIMAL(6,2) NOT NULL,
+
+    active BOOLEAN NOT NULL DEFAULT true
 );
 
--- diet
+-- =========================
+-- DIET (generated diet)
+-- =========================
 CREATE TABLE diet (
     id UUID PRIMARY KEY,
     diet_type_id UUID NOT NULL,
+
     objective VARCHAR(50) NOT NULL,
-    target_calories INTEGER NOT NULL,
     status VARCHAR(50) NOT NULL,
-    created_at TIMESTAMP NOT NULL,
+
+    target_calories INTEGER NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT now(),
 
     CONSTRAINT fk_diet_type
         FOREIGN KEY (diet_type_id)
         REFERENCES diet_type (id)
 );
 
--- user_profile (snapshot)
+-- =========================
+-- USER PROFILE (snapshot)
+-- =========================
 CREATE TABLE user_profile (
     id UUID PRIMARY KEY,
     diet_id UUID NOT NULL UNIQUE,
+
     weight DECIMAL(10,2) NOT NULL,
     height DECIMAL(10,2) NOT NULL,
     age INTEGER,
@@ -59,14 +77,17 @@ CREATE TABLE user_profile (
         ON DELETE CASCADE
 );
 
--- week_plan
+-- =========================
+-- WEEK PLAN
+-- =========================
 CREATE TABLE week_plan (
     id UUID PRIMARY KEY,
     diet_id UUID NOT NULL UNIQUE,
+
     total_calories INTEGER NOT NULL,
-    total_protein DECIMAL(10,2) NOT NULL,
-    total_carbs DECIMAL(10,2) NOT NULL,
-    total_fat DECIMAL(10,2) NOT NULL,
+    total_protein DECIMAL(6,2) NOT NULL,
+    total_carbs DECIMAL(6,2) NOT NULL,
+    total_fat DECIMAL(6,2) NOT NULL,
 
     CONSTRAINT fk_week_plan_diet
         FOREIGN KEY (diet_id)
@@ -74,15 +95,18 @@ CREATE TABLE week_plan (
         ON DELETE CASCADE
 );
 
--- day_plan
+-- =========================
+-- DAY PLAN
+-- =========================
 CREATE TABLE day_plan (
     id UUID PRIMARY KEY,
     week_plan_id UUID NOT NULL,
     day_of_week INTEGER NOT NULL,
+
     total_calories INTEGER NOT NULL,
-    total_protein DECIMAL(10,2) NOT NULL,
-    total_carbs DECIMAL(10,2) NOT NULL,
-    total_fat DECIMAL(10,2) NOT NULL,
+    total_protein DECIMAL(6,2) NOT NULL,
+    total_carbs DECIMAL(6,2) NOT NULL,
+    total_fat DECIMAL(6,2) NOT NULL,
 
     CONSTRAINT fk_day_plan_week
         FOREIGN KEY (week_plan_id)
@@ -90,15 +114,19 @@ CREATE TABLE day_plan (
         ON DELETE CASCADE
 );
 
--- meal_plan
+-- =========================
+-- MEAL PLAN
+-- =========================
 CREATE TABLE meal_plan (
     id UUID PRIMARY KEY,
     day_plan_id UUID NOT NULL,
+
     meal_type VARCHAR(50) NOT NULL,
+
     calories INTEGER NOT NULL,
-    protein DECIMAL(10,2) NOT NULL,
-    carbs DECIMAL(10,2) NOT NULL,
-    fat DECIMAL(10,2) NOT NULL,
+    protein DECIMAL(6,2) NOT NULL,
+    carbs DECIMAL(6,2) NOT NULL,
+    fat DECIMAL(6,2) NOT NULL,
 
     CONSTRAINT fk_meal_plan_day
         FOREIGN KEY (day_plan_id)
@@ -106,17 +134,19 @@ CREATE TABLE meal_plan (
         ON DELETE CASCADE
 );
 
--- meal_food
+-- =========================
+-- MEAL FOOD (junction)
+-- =========================
 CREATE TABLE meal_food (
     id UUID PRIMARY KEY,
     meal_plan_id UUID NOT NULL,
     food_id UUID NOT NULL,
 
-    grams DECIMAL(10,2) NOT NULL,
+    grams DECIMAL(6,2) NOT NULL,
     calories INTEGER NOT NULL,
-    protein DECIMAL(10,2) NOT NULL,
-    carbs DECIMAL(10,2) NOT NULL,
-    fat DECIMAL(10,2) NOT NULL,
+    protein DECIMAL(6,2) NOT NULL,
+    carbs DECIMAL(6,2) NOT NULL,
+    fat DECIMAL(6,2) NOT NULL,
 
     CONSTRAINT fk_meal_food_meal
         FOREIGN KEY (meal_plan_id)

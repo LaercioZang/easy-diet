@@ -1,6 +1,6 @@
 package com.easydiet.backend.domain.food.enums;
 
-public enum FoodCategory {
+public enum Category {
     PROTEIN,
     CARB,
     FAT,

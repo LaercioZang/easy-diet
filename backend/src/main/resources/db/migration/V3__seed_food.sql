@@ -1,15 +1,15 @@
-INSERT INTO food_category (id, name) VALUES
-(gen_random_uuid(), 'Protein'),
-(gen_random_uuid(), 'Carbohydrate'),
-(gen_random_uuid(), 'Fat');
+INSERT INTO food_category (id, name, code, active) VALUES
+(gen_random_uuid(), 'Protein', 'PROTEIN', true),
+(gen_random_uuid(), 'Carbohydrate', 'CARB', true),
+(gen_random_uuid(), 'Fat', 'FAT', true);
 
 
 INSERT INTO food (
     id, name, category_id,
-    calories_per_100g,
-    protein_per_100g,
-    carbs_per_100g,
-    fat_per_100g,
+    calories,
+    protein,
+    carbs,
+    fat,
     active
 )
 SELECT
