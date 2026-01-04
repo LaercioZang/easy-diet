@@ -48,7 +48,7 @@ class FoodMapperTest {
         assertThat(domain.isActive()).isTrue();
 
         assertThat(domain.getCategory()).isNotNull();
-        assertThat(domain.getCategory().getCode()).isEqualTo("PROTEIN");
+        assertThat(domain.getCategory().getCode()).isEqualTo(Category.PROTEIN);
     }
 
     @Test

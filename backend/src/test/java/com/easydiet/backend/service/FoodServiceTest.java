@@ -6,6 +6,7 @@ import com.easydiet.backend.persistence.food.FoodCategoryEntity;
 import com.easydiet.backend.persistence.food.FoodCategoryRepository;
 import com.easydiet.backend.persistence.food.FoodEntity;
 import com.easydiet.backend.persistence.food.FoodRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -31,6 +32,12 @@ class FoodServiceTest {
 
     @Autowired
     private FoodCategoryRepository categoryRepository;
+
+    @BeforeEach
+    void cleanDatabase() {
+        foodRepository.deleteAll();
+        categoryRepository.deleteAll();
+    }
 
     @Test
     void shouldReturnOnlyActiveFoods() {

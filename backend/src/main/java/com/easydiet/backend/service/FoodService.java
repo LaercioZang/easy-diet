@@ -11,4 +11,10 @@ public interface FoodService {
     List<Food> findAllActive();
 
     List<Food> findActiveByCategory(Category category);
+
+    List<Food> findAll(
+            Boolean active,
+            String search,
+            Category category
+    );
 }
