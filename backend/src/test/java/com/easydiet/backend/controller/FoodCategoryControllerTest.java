@@ -45,7 +45,8 @@ class FoodCategoryControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(category.getId().toString()))
                 .andExpect(jsonPath("$[0].code").value("PROTEIN"))
-                .andExpect(jsonPath("$[0].name").value("Protein"));
+                .andExpect(jsonPath("$[0].name").value("Protein"))
+                .andExpect(jsonPath("$[0].active").value(true));
     }
 
     @Test
@@ -57,7 +58,8 @@ class FoodCategoryControllerTest {
         mockMvc.perform(get("/api/food-categories/{id}", category.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(category.getId().toString()))
-                .andExpect(jsonPath("$.name").value("Protein"));
+                .andExpect(jsonPath("$.name").value("Protein"))
+                .andExpect(jsonPath("$.active").value(true));
     }
 
     @Test
@@ -76,7 +78,8 @@ class FoodCategoryControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value("Protein"));
+                .andExpect(jsonPath("$.name").value("Protein"))
+                .andExpect(jsonPath("$.active").value(true));
     }
 
     @Test

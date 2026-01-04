@@ -30,6 +30,7 @@ public final class FoodCategoryMapper {
             .id(domain.getId())
             .code(domain.getCode().name())
             .name(domain.getName())
+            .active(domain.isActive())
             .build();
     }
 }
