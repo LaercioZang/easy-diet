@@ -1,4 +1,4 @@
-package com.easydiet.backend.domain.user.command;
+package com.easydiet.backend.domain.diet.command;
 
 import com.easydiet.backend.domain.diet.enums.DietCode;
 import com.easydiet.backend.domain.diet.enums.Goal;

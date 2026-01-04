@@ -14,7 +14,9 @@ import com.easydiet.backend.engine.week.DefaultWeekDistributionEngine;
 import com.easydiet.backend.engine.week.model.WeekDistribution;
 import com.easydiet.backend.exception.DomainException;
 import com.easydiet.backend.exception.ErrorCode;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DefaultDietPlanOrchestrator
         implements DietPlanOrchestrator {
 
