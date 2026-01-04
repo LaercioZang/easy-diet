@@ -25,6 +25,7 @@ public final class ErrorCatalog {
         Map.entry(ErrorCode.INVALID_BASE_CALORIES, "Base calories must be greater than zero"),
 
         // GENERIC
+        Map.entry(ErrorCode.RESOURCE_NOT_FOUND, "The requested resource was not found"),
         Map.entry(ErrorCode.INTERNAL_ERROR, "Unexpected internal error")
     );
 

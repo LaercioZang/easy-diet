@@ -12,4 +12,5 @@ public class FoodCategoryResponse {
     private UUID id;
     private String code;
     private String name;
+    private boolean active;
 }
