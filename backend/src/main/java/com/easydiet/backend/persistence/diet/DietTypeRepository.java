@@ -12,4 +12,9 @@ public interface DietTypeRepository extends JpaRepository<DietTypeEntity, UUID> 
     Optional<DietTypeEntity> findByCode(DietCode code);
 
     List<DietTypeEntity> findByActiveTrue();
+
+    List<DietTypeEntity> findByActiveFalse();
+
+    List<DietTypeEntity> findByNameContainingIgnoreCase(String name);
+
 }

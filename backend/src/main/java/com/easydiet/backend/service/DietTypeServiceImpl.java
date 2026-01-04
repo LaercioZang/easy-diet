@@ -36,6 +36,37 @@ public class DietTypeServiceImpl implements DietTypeService {
     }
 
     @Override
+    public List<DietType> findAll(Boolean active, String search) {
+
+        if (active == null && search == null) {
+            return repository.findAll()
+                    .stream()
+                    .map(DietTypeMapper::toDomain)
+                    .toList();
+        }
+
+        if (active != null && search == null) {
+            return (active
+                    ? repository.findByActiveTrue()
+                    : repository.findByActiveFalse())
+                    .stream()
+                    .map(DietTypeMapper::toDomain)
+                    .toList();
+        }
+
+        if (active == null && search != null) {
+            return repository.findByNameContainingIgnoreCase(search)
+                    .stream()
+                    .map(DietTypeMapper::toDomain)
+                    .toList();
+        }
+
+        throw new UnsupportedOperationException(
+                "Combination of filters not supported yet"
+        );
+    }
+
+    @Override
     public DietType findById(UUID id) {
         return repository.findById(id)
                 .map(DietTypeMapper::toDomain)

@@ -9,6 +9,7 @@ import java.util.UUID;
 public interface DietTypeService {
     List<DietType> findAll();
     List<DietType> findAllActive();
+    List<DietType> findAll(Boolean active, String search);
     DietType findById(UUID id);
     DietType create(DietTypeRequest request);
     DietType update(UUID id, DietTypeRequest request);
