@@ -19,5 +19,6 @@ public enum ErrorCode {
     INVALID_BASE_CALORIES,
 
     // === GENERIC ===
+    RESOURCE_NOT_FOUND,
     INTERNAL_ERROR
 }
