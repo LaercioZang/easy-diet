@@ -12,4 +12,8 @@ public interface FoodCategoryRepository extends JpaRepository<FoodCategoryEntity
     Optional<FoodCategoryEntity> findByCode(Category code);
 
     List<FoodCategoryEntity> findByActiveTrue();
+
+    List<FoodCategoryEntity> findByActiveFalse();
+
+    List<FoodCategoryEntity> findByNameContainingIgnoreCase(String name);
 }

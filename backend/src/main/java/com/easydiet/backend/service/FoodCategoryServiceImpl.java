@@ -36,6 +36,37 @@ public class FoodCategoryServiceImpl implements FoodCategoryService {
     }
 
     @Override
+    public List<FoodCategory> findAll(Boolean active, String search) {
+
+        if (active == null && search == null) {
+            return repository.findAll()
+                    .stream()
+                    .map(FoodCategoryMapper::toDomain)
+                    .toList();
+        }
+
+        if (active != null && search == null) {
+            return (active
+                    ? repository.findByActiveTrue()
+                    : repository.findByActiveFalse())
+                    .stream()
+                    .map(FoodCategoryMapper::toDomain)
+                    .toList();
+        }
+
+        if (active == null && search != null) {
+            return repository.findByNameContainingIgnoreCase(search)
+                    .stream()
+                    .map(FoodCategoryMapper::toDomain)
+                    .toList();
+        }
+
+        throw new UnsupportedOperationException(
+                "Combination of filters not supported yet"
+        );
+    }
+
+    @Override
     public FoodCategory findById(UUID id) {
         return repository.findById(id)
                 .map(FoodCategoryMapper::toDomain)
