@@ -11,4 +11,6 @@ public interface FoodRepository extends JpaRepository<FoodEntity, UUID> {
     List<FoodEntity> findByActiveTrue();
 
     List<FoodEntity> findByFoodCategory_CodeAndActiveTrue(Category categoryCode);
+
+    List<FoodEntity> findByNameContainingIgnoreCaseAndActiveTrue(String name);
 }

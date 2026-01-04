@@ -20,4 +20,16 @@ public final class FoodCategoryMapper {
             .active(entity.isActive())
             .build();
     }
+
+    public static com.easydiet.backend.dto.FoodCategoryResponse toResponse(FoodCategory domain) {
+        if (domain == null) {
+            return null;
+        }
+
+        return com.easydiet.backend.dto.FoodCategoryResponse.builder()
+            .id(domain.getId())
+            .code(domain.getCode().name())
+            .name(domain.getName())
+            .build();
+    }
 }
