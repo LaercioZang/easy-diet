@@ -2,15 +2,17 @@ package com.easydiet.backend.persistence.diet;
 
 import com.easydiet.backend.domain.diet.enums.DietCode;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "diet_type")
 @Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class DietTypeEntity {
 
     @Id
