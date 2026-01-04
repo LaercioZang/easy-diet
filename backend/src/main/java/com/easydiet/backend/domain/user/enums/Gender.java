@@ -1,6 +1,6 @@
 package com.easydiet.backend.domain.user.enums;
 
-public enum Sex {
+public enum Gender {
     MALE,
     FEMALE
 }
