@@ -1,6 +1,6 @@
 package com.easydiet.backend.service.diet;
 
-import com.easydiet.backend.domain.diet.totals.DietPlanTotals;
+import com.easydiet.backend.dto.diet.DietPlanTotalsResponse;
 import com.easydiet.backend.exception.DomainException;
 import com.easydiet.backend.persistence.diet.DietPlanEntity;
 import com.easydiet.backend.persistence.diet.DietPlanRepository;
@@ -118,33 +118,31 @@ class DietPlanTotalsServiceTest {
                         .build()
         );
 
-        DietPlanTotals totals =
+        DietPlanTotalsResponse totals =
                 dietPlanTotalsService.calculateForActivePlan(user.getId());
 
         // 🔹 Totais semanais
-        assertThat(totals.totalCalories()).isEqualByComparingTo("1500");
-        assertThat(totals.totalProtein()).isEqualByComparingTo("105");
-        assertThat(totals.totalCarbs()).isEqualByComparingTo("150");
-        assertThat(totals.totalFat()).isEqualByComparingTo("45");
+        assertThat(totals.weeklyCalories()).isEqualByComparingTo("1500");
+        assertThat(totals.weeklyProtein()).isEqualByComparingTo("105");
+        assertThat(totals.weeklyCarbs()).isEqualByComparingTo("150");
+        assertThat(totals.weeklyFat()).isEqualByComparingTo("45");
 
-        // 🔹 Totais por dia
-        assertThat(totals.days()).hasSize(2);
+        // 🔹 Totais diários
+        assertThat(totals.dailyTotals()).hasSize(2);
 
-        var monday = totals.days().stream()
-                .filter(d -> d.day() == DayOfWeek.MONDAY)
-                .findFirst()
-                .orElseThrow();
+        var monday = totals.dailyTotals().get(DayOfWeek.MONDAY);
 
         assertThat(monday.calories()).isEqualByComparingTo("1000");
         assertThat(monday.protein()).isEqualByComparingTo("70");
+        assertThat(monday.carbs()).isEqualByComparingTo("100");
+        assertThat(monday.fat()).isEqualByComparingTo("30");
 
-        var tuesday = totals.days().stream()
-                .filter(d -> d.day() == DayOfWeek.TUESDAY)
-                .findFirst()
-                .orElseThrow();
+        var tuesday = totals.dailyTotals().get(DayOfWeek.TUESDAY);
 
         assertThat(tuesday.calories()).isEqualByComparingTo("500");
         assertThat(tuesday.protein()).isEqualByComparingTo("35");
+        assertThat(tuesday.carbs()).isEqualByComparingTo("50");
+        assertThat(tuesday.fat()).isEqualByComparingTo("15");
     }
 
     @Test
@@ -153,6 +151,6 @@ class DietPlanTotalsServiceTest {
         assertThatThrownBy(() ->
                 dietPlanTotalsService.calculateForActivePlan(user.getId())
         )
-        .isInstanceOf(DomainException.class);
+                .isInstanceOf(DomainException.class);
     }
 }
