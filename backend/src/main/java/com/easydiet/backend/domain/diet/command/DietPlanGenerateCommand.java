@@ -7,6 +7,7 @@ import com.easydiet.backend.domain.user.enums.ActivityLevel;
 
 import java.time.DayOfWeek;
 import java.util.Set;
+import java.util.UUID;
 
 public record DietPlanGenerateCommand(
         Goal goal,

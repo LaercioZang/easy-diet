@@ -14,3 +14,10 @@ spring:
     enabled: true
     locations: classpath:db/migration
     baseline-on-migrate: true
+
+security:
+  jwt:
+    secret: lOttCoe01vtAQv6jYe74mTG/w0VGkRTBZJtFBp+HlfI=
+    expiration: 3600
+  refresh:
+    expiration-days: 14

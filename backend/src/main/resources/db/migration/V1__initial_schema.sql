@@ -33,7 +33,7 @@ CREATE TABLE food (
         FOREIGN KEY (category_id)
         REFERENCES food_category (id),
 
-    calories INTEGER NOT NULL,
+    calories DECIMAL(6,2) NOT NULL,
     protein DECIMAL(6,2) NOT NULL,
     carbs DECIMAL(6,2) NOT NULL,
     fat DECIMAL(6,2) NOT NULL,

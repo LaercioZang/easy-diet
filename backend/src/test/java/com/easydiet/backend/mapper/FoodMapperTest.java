@@ -29,7 +29,7 @@ class FoodMapperTest {
             .id(foodId)
             .name("Chicken Breast")
             .foodCategory(category)
-            .calories(120)
+            .calories(BigDecimal.valueOf(120))
             .protein(new BigDecimal("22.5"))
             .carbs(BigDecimal.ZERO)
             .fat(new BigDecimal("1.5"))
@@ -41,7 +41,7 @@ class FoodMapperTest {
         assertThat(domain).isNotNull();
         assertThat(domain.getId()).isEqualTo(foodId);
         assertThat(domain.getName()).isEqualTo("Chicken Breast");
-        assertThat(domain.getCalories()).isEqualTo(120);
+        assertThat(domain.getCalories()).isEqualTo(BigDecimal.valueOf(120));
         assertThat(domain.getProtein()).isEqualTo(new BigDecimal("22.5"));
         assertThat(domain.getCarbs()).isEqualTo(BigDecimal.ZERO);
         assertThat(domain.getFat()).isEqualTo(new BigDecimal("1.5"));

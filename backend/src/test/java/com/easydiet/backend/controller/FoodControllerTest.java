@@ -1,13 +1,16 @@
 package com.easydiet.backend.controller;
 
+import com.easydiet.backend.config.TestSecurityConfig;
 import com.easydiet.backend.domain.food.Food;
 import com.easydiet.backend.domain.food.FoodCategory;
 import com.easydiet.backend.domain.food.enums.Category;
 import com.easydiet.backend.service.FoodService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
@@ -19,6 +22,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(FoodController.class)
+@AutoConfigureMockMvc(addFilters = false)
+@Import(TestSecurityConfig.class)
 class FoodControllerTest {
 
     @Autowired
@@ -62,7 +67,7 @@ class FoodControllerTest {
         return Food.builder()
             .id(UUID.randomUUID())
             .name("Chicken Breast")
-            .calories(165)
+            .calories(BigDecimal.valueOf(165))
             .protein(BigDecimal.valueOf(31))
             .carbs(BigDecimal.ZERO)
             .fat(BigDecimal.valueOf(3.6))

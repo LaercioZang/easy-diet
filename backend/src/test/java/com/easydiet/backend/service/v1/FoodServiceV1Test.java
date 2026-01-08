@@ -59,7 +59,7 @@ class FoodServiceV1Test {
                 .id(UUID.randomUUID())
                 .name(name)
                 .foodCategory(category)
-                .calories(100)
+                .calories(BigDecimal.valueOf(100))
                 .protein(BigDecimal.TEN)
                 .carbs(BigDecimal.ONE)
                 .fat(BigDecimal.ONE)

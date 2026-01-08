@@ -1,12 +1,18 @@
 package com.easydiet.backend.controller.v1;
 
+import com.easydiet.backend.config.JwtTokenProvider;
+import com.easydiet.backend.config.TestSecurityConfig;
+import com.easydiet.backend.config.TestSecurityUtils;
 import com.easydiet.backend.domain.food.Food;
 import com.easydiet.backend.domain.food.enums.Category;
 import com.easydiet.backend.service.FoodService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -20,6 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(FoodControllerV1.class)
 @ActiveProfiles("test")
+@Import(TestSecurityConfig.class)
+@AutoConfigureMockMvc(addFilters = false)
 class FoodControllerV1Test {
 
     @Autowired
@@ -27,6 +35,13 @@ class FoodControllerV1Test {
 
     @MockBean
     private FoodService foodService;
+
+    @BeforeEach
+    void setup() {
+        TestSecurityUtils.mockAuthenticatedUser(
+                UUID.fromString("11111111-1111-1111-1111-111111111111")
+        );
+    }
 
     @Test
     void shouldReturnFoodsWithoutFilters() throws Exception {
@@ -36,7 +51,7 @@ class FoodControllerV1Test {
                                 Food.builder()
                                         .id(UUID.randomUUID())
                                         .name("Chicken")
-                                        .calories(120)
+                                        .calories(BigDecimal.valueOf(120))
                                         .protein(BigDecimal.TEN)
                                         .carbs(BigDecimal.ZERO)
                                         .fat(BigDecimal.ONE)

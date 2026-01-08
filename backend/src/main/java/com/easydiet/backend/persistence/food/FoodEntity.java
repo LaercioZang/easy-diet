@@ -27,7 +27,7 @@ public class FoodEntity {
     private FoodCategoryEntity foodCategory;
 
     @Column(nullable = false)
-    private Integer calories;
+    private BigDecimal calories;
 
     @Column(nullable = false, precision = 6, scale = 2)
     private BigDecimal protein;

@@ -107,7 +107,7 @@ class FoodRepositoryTest {
                 .id(UUID.randomUUID())
                 .name(name)
                 .foodCategory(category)
-                .calories(100)
+                .calories(BigDecimal.valueOf(100))
                 .protein(BigDecimal.TEN)
                 .carbs(BigDecimal.TEN)
                 .fat(BigDecimal.TEN)

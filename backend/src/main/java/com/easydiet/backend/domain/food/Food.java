@@ -17,7 +17,7 @@ public class Food {
     private UUID id;
     private String name;
     private FoodCategory category;
-    private Integer calories;
+    private BigDecimal calories;
     private BigDecimal protein;
     private BigDecimal carbs;
     private BigDecimal fat;

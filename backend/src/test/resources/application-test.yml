@@ -12,3 +12,8 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
   flyway:
     enabled: false
+
+security:
+  jwt:
+    secret: essa_chave_precisa_ser_muito_longa_pelo_menos_32_caracteres
+    expiration: 3600
