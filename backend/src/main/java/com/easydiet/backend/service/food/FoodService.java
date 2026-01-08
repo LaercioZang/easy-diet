@@ -1,8 +1,7 @@
-package com.easydiet.backend.service;
+package com.easydiet.backend.service.food;
 
 import com.easydiet.backend.domain.food.Food;
 import com.easydiet.backend.domain.food.enums.Category;
-import com.easydiet.backend.persistence.food.FoodEntity;
 
 import java.util.List;
 

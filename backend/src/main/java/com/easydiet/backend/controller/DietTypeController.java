@@ -3,7 +3,7 @@ package com.easydiet.backend.controller;
 import com.easydiet.backend.dto.DietTypeRequest;
 import com.easydiet.backend.dto.DietTypeResponse;
 import com.easydiet.backend.mapper.DietTypeMapper;
-import com.easydiet.backend.service.DietTypeService;
+import com.easydiet.backend.service.diet.DietTypeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

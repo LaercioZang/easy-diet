@@ -4,7 +4,7 @@ import com.easydiet.backend.config.TestSecurityConfig;
 import com.easydiet.backend.domain.diet.DietType;
 import com.easydiet.backend.domain.diet.enums.DietCode;
 import com.easydiet.backend.dto.DietTypeRequest;
-import com.easydiet.backend.service.DietTypeService;
+import com.easydiet.backend.service.diet.DietTypeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.easydiet.backend.service;
+package com.easydiet.backend.service.meal;
 
 import com.easydiet.backend.domain.meal.command.MealCreateCommand;
 import com.easydiet.backend.domain.meal.command.MealUpdateCommand;
@@ -8,6 +8,7 @@ import com.easydiet.backend.persistence.diet.DietPlanEntity;
 import com.easydiet.backend.persistence.diet.DietPlanStatus;
 import com.easydiet.backend.persistence.meal.MealEntity;
 import com.easydiet.backend.persistence.meal.MealRepository;
+import com.easydiet.backend.service.diet.DietPlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

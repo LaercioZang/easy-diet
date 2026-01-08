@@ -2,7 +2,7 @@ package com.easydiet.backend.controller.v1;
 
 import com.easydiet.backend.config.TestSecurityConfig;
 import com.easydiet.backend.config.TestSecurityUtils;
-import com.easydiet.backend.service.FoodCategoryService;
+import com.easydiet.backend.service.food.FoodCategoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

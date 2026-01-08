@@ -5,7 +5,7 @@ import com.easydiet.backend.dto.meal.FoodItemCreateRequest;
 import com.easydiet.backend.dto.meal.FoodItemResponse;
 import com.easydiet.backend.mapper.FoodItemMapper;
 import com.easydiet.backend.persistence.meal.FoodItemEntity;
-import com.easydiet.backend.service.FoodItemService;
+import com.easydiet.backend.service.food.FoodItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

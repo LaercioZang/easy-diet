@@ -4,7 +4,7 @@ import com.easydiet.backend.config.TestSecurityConfig;
 import com.easydiet.backend.domain.food.Food;
 import com.easydiet.backend.domain.food.FoodCategory;
 import com.easydiet.backend.domain.food.enums.Category;
-import com.easydiet.backend.service.FoodService;
+import com.easydiet.backend.service.food.FoodService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

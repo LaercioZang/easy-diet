@@ -1,4 +1,4 @@
-package com.easydiet.backend.service;
+package com.easydiet.backend.service.food;
 
 import com.easydiet.backend.exception.DomainException;
 import com.easydiet.backend.exception.ErrorCode;

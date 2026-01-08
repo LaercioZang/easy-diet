@@ -3,7 +3,7 @@ package com.easydiet.backend.controller;
 import com.easydiet.backend.domain.food.enums.Category;
 import com.easydiet.backend.dto.FoodResponse;
 import com.easydiet.backend.mapper.FoodResponseMapper;
-import com.easydiet.backend.service.FoodService;
+import com.easydiet.backend.service.food.FoodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

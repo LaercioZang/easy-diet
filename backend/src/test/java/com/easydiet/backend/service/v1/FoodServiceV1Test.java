@@ -6,7 +6,7 @@ import com.easydiet.backend.persistence.food.FoodCategoryEntity;
 import com.easydiet.backend.persistence.food.FoodCategoryRepository;
 import com.easydiet.backend.persistence.food.FoodEntity;
 import com.easydiet.backend.persistence.food.FoodRepository;
-import com.easydiet.backend.service.FoodService;
+import com.easydiet.backend.service.food.FoodService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

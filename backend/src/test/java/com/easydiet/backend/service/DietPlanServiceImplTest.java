@@ -8,6 +8,7 @@ import com.easydiet.backend.persistence.meal.MealEntity;
 import com.easydiet.backend.persistence.meal.MealRepository;
 import com.easydiet.backend.persistence.user.UserEntity;
 import com.easydiet.backend.persistence.user.UserRepository;
+import com.easydiet.backend.service.diet.DietPlanService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -8,7 +8,7 @@ import com.easydiet.backend.dto.meal.MealCreateRequest;
 import com.easydiet.backend.dto.meal.MealResponse;
 import com.easydiet.backend.dto.meal.MealUpdateRequest;
 import com.easydiet.backend.persistence.meal.MealEntity;
-import com.easydiet.backend.service.MealService;
+import com.easydiet.backend.service.meal.MealService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

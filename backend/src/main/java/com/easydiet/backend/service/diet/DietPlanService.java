@@ -1,4 +1,4 @@
-package com.easydiet.backend.service;
+package com.easydiet.backend.service.diet;
 
 import com.easydiet.backend.domain.diet.DietPlan;
 import com.easydiet.backend.domain.diet.command.DietPlanGenerateCommand;

@@ -1,4 +1,4 @@
-package com.easydiet.backend.service;
+package com.easydiet.backend.service.meal;
 
 import com.easydiet.backend.domain.meal.command.MealCreateCommand;
 import com.easydiet.backend.domain.meal.command.MealUpdateCommand;

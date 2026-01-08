@@ -10,7 +10,7 @@ import com.easydiet.backend.domain.user.enums.Gender;
 import com.easydiet.backend.dto.DietPlanGenerateRequest;
 import com.easydiet.backend.engine.week.model.WeekDistribution;
 import com.easydiet.backend.persistence.diet.DietPlanEntity;
-import com.easydiet.backend.service.DietPlanService;
+import com.easydiet.backend.service.diet.DietPlanService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -6,7 +6,7 @@ import com.easydiet.backend.dto.DietPlanGenerateResponse;
 import com.easydiet.backend.dto.diet.DietPlanSnapshotResponse;
 import com.easydiet.backend.mapper.DietPlanMapper;
 import com.easydiet.backend.mapper.DietPlanSnapshotMapper;
-import com.easydiet.backend.service.DietPlanService;
+import com.easydiet.backend.service.diet.DietPlanService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

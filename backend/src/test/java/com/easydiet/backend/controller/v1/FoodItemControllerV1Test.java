@@ -4,7 +4,7 @@ import com.easydiet.backend.config.TestSecurityConfig;
 import com.easydiet.backend.config.TestSecurityUtils;
 import com.easydiet.backend.persistence.food.FoodEntity;
 import com.easydiet.backend.persistence.meal.FoodItemEntity;
-import com.easydiet.backend.service.FoodItemService;
+import com.easydiet.backend.service.food.FoodItemService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

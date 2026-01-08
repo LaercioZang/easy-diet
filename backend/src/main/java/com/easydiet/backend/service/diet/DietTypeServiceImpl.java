@@ -1,4 +1,4 @@
-package com.easydiet.backend.service;
+package com.easydiet.backend.service.diet;
 
 import com.easydiet.backend.domain.diet.DietType;
 import com.easydiet.backend.dto.DietTypeRequest;

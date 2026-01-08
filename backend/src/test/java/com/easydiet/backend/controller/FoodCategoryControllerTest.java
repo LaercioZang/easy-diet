@@ -4,7 +4,7 @@ import com.easydiet.backend.config.TestSecurityConfig;
 import com.easydiet.backend.domain.food.FoodCategory;
 import com.easydiet.backend.domain.food.enums.Category;
 import com.easydiet.backend.dto.FoodCategoryRequest;
-import com.easydiet.backend.service.FoodCategoryService;
+import com.easydiet.backend.service.food.FoodCategoryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

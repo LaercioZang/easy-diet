@@ -3,7 +3,7 @@ package com.easydiet.backend.controller;
 import com.easydiet.backend.dto.FoodCategoryRequest;
 import com.easydiet.backend.dto.FoodCategoryResponse;
 import com.easydiet.backend.mapper.FoodCategoryMapper;
-import com.easydiet.backend.service.FoodCategoryService;
+import com.easydiet.backend.service.food.FoodCategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
