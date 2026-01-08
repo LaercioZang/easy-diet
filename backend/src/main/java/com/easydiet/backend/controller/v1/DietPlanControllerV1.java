@@ -11,6 +11,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.UUID;
@@ -52,10 +54,18 @@ public class DietPlanControllerV1 {
                 .toList();
     }
 
-    @GetMapping("/user")
-    public List<DietPlanSnapshotResponse> findAllByUser(
+    @GetMapping
+    public Page<DietPlanSnapshotResponse> list(
+            Pageable pageable
     ) {
+        UUID userId = SecurityUtils.getCurrentUserId();
 
+        return dietPlanService.findAllByUser(userId, pageable)
+                .map(DietPlanSnapshotMapper::toResponse);
+    }
+
+    @GetMapping("/user")
+    public List<DietPlanSnapshotResponse> findAllByUserLegacy() {
         UUID userId = SecurityUtils.getCurrentUserId();
 
         return dietPlanService.findAllByUser(userId)

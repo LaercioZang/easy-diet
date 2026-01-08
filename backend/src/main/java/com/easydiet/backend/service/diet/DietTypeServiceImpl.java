@@ -10,6 +10,8 @@ import com.easydiet.backend.persistence.diet.DietTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,6 +75,26 @@ public class DietTypeServiceImpl implements DietTypeService {
         throw new UnsupportedOperationException(
                 "Combination of filters not supported yet"
         );
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<DietType> findAll(Pageable pageable) {
+        return repository.findAll(pageable)
+                .map(DietTypeMapper::toDomain);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<DietType> findAll(Boolean active, Pageable pageable) {
+        return active
+                ? repository.findByActiveTrue(pageable).map(DietTypeMapper::toDomain)
+                : repository.findByActiveFalse(pageable).map(DietTypeMapper::toDomain);
+    }
+
+    @Override
+    public Page<DietType> findAll(Boolean active, String search, Pageable pageable) {
+        return repository.findByActiveAndNameContainingIgnoreCase(active, search, pageable).map(DietTypeMapper::toDomain);
     }
 
     @Override

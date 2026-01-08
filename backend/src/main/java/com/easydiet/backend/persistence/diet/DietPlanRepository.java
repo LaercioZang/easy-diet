@@ -1,5 +1,7 @@
 package com.easydiet.backend.persistence.diet;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -13,4 +15,9 @@ public interface DietPlanRepository extends JpaRepository<DietPlanEntity, UUID> 
     Optional<DietPlanEntity> findByUserIdAndStatus(UUID userId, DietPlanStatus status);
 
     List<DietPlanEntity> findAllByUserIdOrderByCreatedAtDesc(UUID userId);
+
+    Page<DietPlanEntity> findAllByUserIdOrderByCreatedAtDesc(
+            UUID userId,
+            Pageable pageable
+    );
 }

@@ -12,7 +12,6 @@ import java.util.UUID;
 public interface FoodCategoryService {
     List<FoodCategory> findAll();
     Page<FoodCategoryResponse> findAll(Pageable pageable);
-    
     List<FoodCategory> findAllActive();
     List<FoodCategory> findAll(Boolean active, String search);
     FoodCategory findById(UUID id);

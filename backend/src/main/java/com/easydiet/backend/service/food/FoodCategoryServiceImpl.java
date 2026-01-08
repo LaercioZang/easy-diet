@@ -26,6 +26,7 @@ public class FoodCategoryServiceImpl implements FoodCategoryService {
 
     private final FoodCategoryRepository repository;
 
+    
     @Cacheable("foodCategoriesAll")
     @Override
     public List<FoodCategory> findAll() {

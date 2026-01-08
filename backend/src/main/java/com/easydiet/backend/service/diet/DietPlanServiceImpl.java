@@ -18,6 +18,8 @@ import com.easydiet.backend.persistence.user.UserEntity;
 import com.easydiet.backend.persistence.user.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -88,6 +90,18 @@ public class DietPlanServiceImpl implements DietPlanService {
         }
 
         return dietPlanRepository.findAllByUser_Id(userId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<DietPlanEntity> findAllByUser(UUID userId, Pageable pageable) {
+
+        if (!userRepository.existsById(userId)) {
+            throw new DomainException(ErrorCode.RESOURCE_NOT_FOUND);
+        }
+
+        return dietPlanRepository
+                .findAllByUserIdOrderByCreatedAtDesc(userId, pageable);
     }
 
     @Override

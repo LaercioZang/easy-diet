@@ -1,11 +1,14 @@
 package com.easydiet.backend.controller;
 
+import com.easydiet.backend.domain.diet.DietType;
 import com.easydiet.backend.dto.DietTypeRequest;
 import com.easydiet.backend.dto.DietTypeResponse;
 import com.easydiet.backend.mapper.DietTypeMapper;
 import com.easydiet.backend.service.diet.DietTypeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +30,18 @@ public class DietTypeController {
                 .toList();
     }
 
+    @GetMapping("/page")
+    public Page<DietTypeResponse> findAllPaged(
+            @RequestParam(required = false) Boolean active,
+            Pageable pageable
+    ) {
+        Page<DietType> page =
+                (active != null)
+                        ? service.findAll(active, pageable)
+                        : service.findAll(pageable);
+
+        return page.map(DietTypeMapper::toResponse);
+    }
     @GetMapping("/{id}")
     public DietTypeResponse findById(@PathVariable UUID id) {
         return DietTypeMapper.toResponse(service.findById(id));

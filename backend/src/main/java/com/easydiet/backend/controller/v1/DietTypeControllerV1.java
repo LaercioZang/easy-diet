@@ -5,6 +5,8 @@ import com.easydiet.backend.dto.DietTypeResponse;
 import com.easydiet.backend.mapper.DietTypeMapper;
 import com.easydiet.backend.service.diet.DietTypeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,4 +31,18 @@ public class DietTypeControllerV1 {
                 .map(DietTypeMapper::toResponse)
                 .toList();
     }
+
+    @GetMapping("/page")
+    public Page<DietTypeResponse> findAllPaged(
+            @RequestParam(required = false) Boolean active,
+            @RequestParam(required = false) String search,
+            Pageable pageable
+    ) {
+
+        Page<DietType> page =
+                dietTypeService.findAll(active, search, pageable);
+
+        return page.map(DietTypeMapper::toResponse);
+    }
+
 }
