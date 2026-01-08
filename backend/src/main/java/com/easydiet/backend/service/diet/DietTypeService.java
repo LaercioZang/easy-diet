@@ -15,3 +15,4 @@ public interface DietTypeService {
     DietType update(UUID id, DietTypeRequest request);
     void delete(UUID id);
 }
+

@@ -28,6 +28,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Application Service responsável por casos de uso relacionados a DietPlan.
+ *
+ * Regras deste service:
+ * - Valida apenas parâmetros de entrada (null, range, permissões).
+ * - NÃO executa cálculos nutricionais.
+ * - NÃO chama engines diretamente.
+ * - Toda lógica de distribuição/calculo deve ser delegada ao DietPlanOrchestrator.
+ * - Este service coordena o fluxo e controla a transação.
+ */
 @RequiredArgsConstructor
 @Service
 public class DietPlanServiceImpl implements DietPlanService {
@@ -36,7 +46,6 @@ public class DietPlanServiceImpl implements DietPlanService {
     private final TdeeCalculator tdeeCalculator;
     private final DietPlanRepository dietPlanRepository;
     private final UserRepository userRepository;
-    private final MealRepository mealRepository;
 
     @Override
     public DietPlan generate(DietPlanGenerateCommand command, UUID userId) {
@@ -117,71 +126,6 @@ public class DietPlanServiceImpl implements DietPlanService {
         return plan;
     }
 
-    @Override
-    @Transactional()
-    public DietPlanTotalsResponse calculateTotals(UUID userId) {
-
-        DietPlanEntity activePlan = findActive(userId);
-
-        List<MealEntity> meals =
-                mealRepository.findAllByDietPlanId(activePlan.getId());
-
-        Map<DayOfWeek, DietPlanTotalsResponse.DayTotals> dailyTotals =
-                new EnumMap<>(DayOfWeek.class);
-
-        BigDecimal weeklyCalories = BigDecimal.ZERO;
-        BigDecimal weeklyProtein  = BigDecimal.ZERO;
-        BigDecimal weeklyCarbs    = BigDecimal.ZERO;
-        BigDecimal weeklyFat      = BigDecimal.ZERO;
-
-        for (MealEntity meal : meals) {
-
-            DayOfWeek day = meal.getDayOfWeek();
-
-            DietPlanTotalsResponse.DayTotals current =
-                    dailyTotals.getOrDefault(
-                            day,
-                            new DietPlanTotalsResponse.DayTotals(
-                                    BigDecimal.ZERO,
-                                    BigDecimal.ZERO,
-                                    BigDecimal.ZERO,
-                                    BigDecimal.ZERO
-                            )
-                    );
-
-            BigDecimal dayCalories =
-                    current.calories().add(meal.getTotalCalories());
-            BigDecimal dayProtein  =
-                    current.protein().add(meal.getTotalProtein());
-            BigDecimal dayCarbs    =
-                    current.carbs().add(meal.getTotalCarbs());
-            BigDecimal dayFat      =
-                    current.fat().add(meal.getTotalFat());
-
-            dailyTotals.put(
-                    day,
-                    new DietPlanTotalsResponse.DayTotals(
-                            dayCalories,
-                            dayProtein,
-                            dayCarbs,
-                            dayFat
-                    )
-            );
-
-            weeklyCalories = weeklyCalories.add(meal.getTotalCalories());
-            weeklyProtein  = weeklyProtein.add(meal.getTotalProtein());
-            weeklyCarbs    = weeklyCarbs.add(meal.getTotalCarbs());
-            weeklyFat      = weeklyFat.add(meal.getTotalFat());
-        }
-
-        return new DietPlanTotalsResponse(
-                dailyTotals,
-                weeklyCalories,
-                weeklyProtein,
-                weeklyCarbs,
-                weeklyFat
-        );
-    }
 
     @Override
     @Transactional()

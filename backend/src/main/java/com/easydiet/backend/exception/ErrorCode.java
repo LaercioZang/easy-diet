@@ -1,11 +1,16 @@
 package com.easydiet.backend.exception;
 
+import lombok.Getter;
+
+@Getter
 public enum ErrorCode {
 
     // === VALIDATION ===
     INVALID_ARGUMENT,
     NULL_VALUE,
     OUT_OF_RANGE,
+    UNAUTHORIZED,
+    FORBIDDEN,
 
     // === NUTRITION ENGINE ===
     UNSUPPORTED_DIET,

@@ -1,6 +1,7 @@
 package com.easydiet.backend.mapper;
 
 import com.easydiet.backend.domain.food.FoodCategory;
+import com.easydiet.backend.dto.FoodCategoryResponse;
 import com.easydiet.backend.persistence.food.FoodCategoryEntity;
 
 public final class FoodCategoryMapper {
@@ -21,12 +22,12 @@ public final class FoodCategoryMapper {
             .build();
     }
 
-    public static com.easydiet.backend.dto.FoodCategoryResponse toResponse(FoodCategory domain) {
+    public static FoodCategoryResponse toResponse(FoodCategory domain) {
         if (domain == null) {
             return null;
         }
 
-        return com.easydiet.backend.dto.FoodCategoryResponse.builder()
+        return FoodCategoryResponse.builder()
             .id(domain.getId())
             .code(domain.getCode().name())
             .name(domain.getName())

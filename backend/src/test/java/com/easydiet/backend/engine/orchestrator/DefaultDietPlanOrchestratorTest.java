@@ -48,9 +48,9 @@ class DefaultDietPlanOrchestratorTest {
                         3
                 )
         )
-        .isInstanceOf(DomainException.class)
-        .extracting("errorCode")
-        .isEqualTo(ErrorCode.OUT_OF_RANGE);
+                .isInstanceOf(DomainException.class)
+                .extracting("errorCode")
+                .isEqualTo(ErrorCode.OUT_OF_RANGE);
     }
 
     @Test
@@ -65,8 +65,23 @@ class DefaultDietPlanOrchestratorTest {
                         3
                 )
         )
-        .isInstanceOf(DomainException.class)
-        .extracting("errorCode")
-        .isEqualTo(ErrorCode.NULL_VALUE);
+                .isInstanceOf(DomainException.class)
+                .extracting("errorCode")
+                .isEqualTo(ErrorCode.NULL_VALUE);
+    }
+
+    @Test
+    void shouldFailWhenDomainValidationFails() {
+        assertThatThrownBy(() ->
+                orchestrator.generateWeeklyPlan(
+                        70,
+                        2600,
+                        Goal.MAINTENANCE,
+                        DietCode.NORMAL,
+                        0,   // mealsPerDay inválido → domínio
+                        4
+                )
+        )
+                .isInstanceOf(DomainException.class);
     }
 }

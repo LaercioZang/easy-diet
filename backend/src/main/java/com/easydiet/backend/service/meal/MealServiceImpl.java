@@ -10,6 +10,7 @@ import com.easydiet.backend.persistence.meal.MealEntity;
 import com.easydiet.backend.persistence.meal.MealRepository;
 import com.easydiet.backend.service.diet.DietPlanService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,19 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Application Service responsável por operações de Meal.
+ *
+ * Responsabilidades:
+ * - Orquestrar persistência e leitura de meals.
+ * - Validar entradas básicas do caso de uso.
+ *
+ * Restrições:
+ * - NÃO calcular macros, calorias ou distribuição.
+ * - NÃO aplicar regras nutricionais.
+ * - Qualquer lógica de domínio deve estar no Domain ou Engine apropriado.
+ */
+
 @Service
 @RequiredArgsConstructor
 public class MealServiceImpl implements MealService {
@@ -27,27 +41,24 @@ public class MealServiceImpl implements MealService {
     private final DietPlanService dietPlanService;
 
     @Override
+    @CacheEvict(
+            value = "dietPlanTotalsActive",
+            allEntries = true
+    )
     @Transactional
     public MealEntity create(UUID userId, MealCreateCommand command) {
 
         DietPlanEntity activePlan = dietPlanService.findActive(userId);
-
-        if (activePlan.getStatus() != DietPlanStatus.ACTIVE) {
-            throw new DomainException(ErrorCode.INVALID_ARGUMENT);
-        }
 
         MealEntity meal = MealEntity.builder()
                 .dietPlan(activePlan)
                 .dayOfWeek(command.dayOfWeek())
                 .name(command.name())
                 .mealOrder(command.mealOrder())
-
-                // totals começam zerados
                 .totalCalories(BigDecimal.ZERO)
                 .totalProtein(BigDecimal.ZERO)
                 .totalCarbs(BigDecimal.ZERO)
                 .totalFat(BigDecimal.ZERO)
-
                 .createdAt(Instant.now())
                 .build();
 
@@ -67,6 +78,10 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
+    @CacheEvict(
+            value = "dietPlanTotalsActive",
+            allEntries = true
+    )
     @Transactional
     public MealEntity update(UUID mealId, UUID userId, MealUpdateCommand command) {
 
@@ -84,13 +99,14 @@ public class MealServiceImpl implements MealService {
         meal.setName(command.name());
         meal.setMealOrder(command.mealOrder());
 
-        // ⚠️ Totais NÃO são alterados aqui
-        // Eles vêm exclusivamente dos FoodItems
-
-        return meal;
+        return mealRepository.save(meal);
     }
 
     @Override
+    @CacheEvict(
+            value = "dietPlanTotalsActive",
+            allEntries = true
+    )
     @Transactional
     public void delete(UUID mealId, UUID userId) {
 

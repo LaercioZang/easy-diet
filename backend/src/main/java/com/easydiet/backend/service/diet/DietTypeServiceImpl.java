@@ -8,11 +8,14 @@ import com.easydiet.backend.mapper.DietTypeMapper;
 import com.easydiet.backend.persistence.diet.DietTypeEntity;
 import com.easydiet.backend.persistence.diet.DietTypeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +24,7 @@ public class DietTypeServiceImpl implements DietTypeService {
 
     private final DietTypeRepository repository;
 
+    @Cacheable("dietTypesAll")
     @Override
     public List<DietType> findAll() {
         return repository.findAll().stream()
@@ -28,6 +32,7 @@ public class DietTypeServiceImpl implements DietTypeService {
                 .toList();
     }
 
+    @Cacheable("dietTypesActive")
     @Override
     public List<DietType> findAllActive() {
         return repository.findByActiveTrue().stream()
@@ -35,6 +40,10 @@ public class DietTypeServiceImpl implements DietTypeService {
                 .toList();
     }
 
+    @Cacheable(
+            value = "dietTypesFiltered",
+            key = "T(java.util.Objects).hash(#active, #search)"
+    )
     @Override
     public List<DietType> findAll(Boolean active, String search) {
 
@@ -73,6 +82,14 @@ public class DietTypeServiceImpl implements DietTypeService {
                 .orElseThrow(() -> new DomainException(ErrorCode.RESOURCE_NOT_FOUND));
     }
 
+    @CacheEvict(
+            value = {
+                    "dietTypesAll",
+                    "dietTypesActive",
+                    "dietTypesFiltered"
+            },
+            allEntries = true
+    )
     @Override
     @Transactional
     public DietType create(DietTypeRequest request) {
@@ -86,6 +103,14 @@ public class DietTypeServiceImpl implements DietTypeService {
         return DietTypeMapper.toDomain(repository.save(entity));
     }
 
+    @CacheEvict(
+            value = {
+                    "dietTypesAll",
+                    "dietTypesActive",
+                    "dietTypesFiltered"
+            },
+            allEntries = true
+    )
     @Override
     @Transactional
     public DietType update(UUID id, DietTypeRequest request) {
@@ -99,6 +124,14 @@ public class DietTypeServiceImpl implements DietTypeService {
         return DietTypeMapper.toDomain(repository.save(entity));
     }
 
+    @CacheEvict(
+            value = {
+                    "dietTypesAll",
+                    "dietTypesActive",
+                    "dietTypesFiltered"
+            },
+            allEntries = true
+    )
     @Override
     @Transactional
     public void delete(UUID id) {

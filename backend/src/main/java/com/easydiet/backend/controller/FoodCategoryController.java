@@ -6,6 +6,8 @@ import com.easydiet.backend.mapper.FoodCategoryMapper;
 import com.easydiet.backend.service.food.FoodCategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +27,11 @@ public class FoodCategoryController {
         return categories.stream()
                 .map(FoodCategoryMapper::toResponse)
                 .toList();
+    }
+
+    @GetMapping
+    public Page<FoodCategoryResponse> list(Pageable pageable) {
+        return service.findAll(pageable);
     }
 
     @GetMapping("/{id}")

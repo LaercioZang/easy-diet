@@ -21,7 +21,4 @@ public interface DietPlanService {
     DietPlanEntity activate(UUID planId, UUID userId);
 
     DietPlanEntity findActive(UUID userId);
-
-    DietPlanTotalsResponse calculateTotals(UUID userId);
-
 }

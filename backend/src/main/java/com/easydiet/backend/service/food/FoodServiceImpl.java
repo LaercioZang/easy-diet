@@ -5,6 +5,9 @@ import com.easydiet.backend.domain.food.enums.Category;
 import com.easydiet.backend.mapper.FoodMapper;
 import com.easydiet.backend.persistence.food.FoodRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +28,7 @@ public class FoodServiceImpl implements FoodService {
                 .toList();
     }
 
-
+    @Cacheable(value = "foodsByCategory", key = "#categoryCode")
     @Override
     public List<Food> findActiveByCategory(Category category) {
         return foodRepository
@@ -35,7 +38,13 @@ public class FoodServiceImpl implements FoodService {
                 .toList();
     }
 
+    @Override
+    public Page<Food> findAll(Pageable pageable) {
+        return foodRepository.findAll(pageable)
+                .map(FoodMapper::toDomain);
+    }
 
+    @Cacheable("foods")
     @Override
     public List<Food> findAll(Boolean active, String search, Category category) {
 

@@ -14,6 +14,7 @@ public class ErrorResponse {
     private String error;
     private String code;
     private String message;
+    private String path;
     private List<FieldError> fieldErrors;
 
     @Getter

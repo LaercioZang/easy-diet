@@ -2,18 +2,23 @@ package com.easydiet.backend.service.food;
 
 import com.easydiet.backend.domain.food.FoodCategory;
 import com.easydiet.backend.dto.FoodCategoryRequest;
+import com.easydiet.backend.dto.FoodCategoryResponse;
 import com.easydiet.backend.exception.DomainException;
 import com.easydiet.backend.exception.ErrorCode;
 import com.easydiet.backend.mapper.FoodCategoryMapper;
 import com.easydiet.backend.persistence.food.FoodCategoryEntity;
 import com.easydiet.backend.persistence.food.FoodCategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
-
+ 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -21,6 +26,7 @@ public class FoodCategoryServiceImpl implements FoodCategoryService {
 
     private final FoodCategoryRepository repository;
 
+    @Cacheable("foodCategoriesAll")
     @Override
     public List<FoodCategory> findAll() {
         return repository.findAll().stream()
@@ -29,12 +35,25 @@ public class FoodCategoryServiceImpl implements FoodCategoryService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Page<FoodCategoryResponse> findAll(Pageable pageable) {
+        return repository.findAll(pageable)
+                .map(FoodCategoryMapper::toDomain)
+                .map(FoodCategoryMapper::toResponse);
+    }
+
+    @Cacheable("foodCategoriesActive")
+    @Override
     public List<FoodCategory> findAllActive() {
         return repository.findByActiveTrue().stream()
                 .map(FoodCategoryMapper::toDomain)
                 .toList();
     }
 
+    @Cacheable(
+            value = "foodCategoriesFiltered",
+            key = "T(java.util.Objects).hash(#active, #search)"
+    )
     @Override
     public List<FoodCategory> findAll(Boolean active, String search) {
 
@@ -73,8 +92,16 @@ public class FoodCategoryServiceImpl implements FoodCategoryService {
                 .orElseThrow(() -> new DomainException(ErrorCode.RESOURCE_NOT_FOUND));
     }
 
-    @Override
+    @CacheEvict(
+            value = {
+                    "foodCategoriesAll",
+                    "foodCategoriesActive",
+                    "foodCategoriesFiltered"
+            },
+            allEntries = true
+    )
     @Transactional
+    @Override
     public FoodCategory create(FoodCategoryRequest request) {
         FoodCategoryEntity entity = FoodCategoryEntity.builder()
                 .id(UUID.randomUUID())
@@ -86,6 +113,14 @@ public class FoodCategoryServiceImpl implements FoodCategoryService {
         return FoodCategoryMapper.toDomain(repository.save(entity));
     }
 
+    @CacheEvict(
+            value = {
+                    "foodCategoriesAll",
+                    "foodCategoriesActive",
+                    "foodCategoriesFiltered"
+            },
+            allEntries = true
+    )
     @Override
     @Transactional
     public FoodCategory update(UUID id, FoodCategoryRequest request) {
@@ -99,6 +134,14 @@ public class FoodCategoryServiceImpl implements FoodCategoryService {
         return FoodCategoryMapper.toDomain(repository.save(entity));
     }
 
+    @CacheEvict(
+            value = {
+                    "foodCategoriesAll",
+                    "foodCategoriesActive",
+                    "foodCategoriesFiltered"
+            },
+            allEntries = true
+    )
     @Override
     @Transactional
     public void delete(UUID id) {

@@ -1,8 +1,10 @@
 package com.easydiet.backend.engine.orchestrator;
 
+import com.easydiet.backend.domain.diet.DietPlan;
 import com.easydiet.backend.domain.diet.NutritionTarget;
 import com.easydiet.backend.domain.diet.enums.DietCode;
 import com.easydiet.backend.domain.diet.enums.Goal;
+import com.easydiet.backend.domain.validation.DomainValidationOrchestrator;
 import com.easydiet.backend.engine.adjustment.CalorieAdjustmentEngine;
 import com.easydiet.backend.engine.adjustment.DefaultCalorieAdjustmentEngine;
 import com.easydiet.backend.engine.meal.MealDistributionEngine;
@@ -50,11 +52,9 @@ public class DefaultDietPlanOrchestrator
             throw new DomainException(ErrorCode.NULL_VALUE);
         }
 
-        // 1️⃣ Ajuste calórico
         int adjustedCalories =
                 calorieAdjustmentEngine.adjustCalories(baseCalories, goal);
 
-        // 2️⃣ Macros diários
         NutritionTarget dailyTarget =
                 nutritionEngine.calculate(
                         weightKg,
@@ -62,12 +62,20 @@ public class DefaultDietPlanOrchestrator
                         goal,
                         dietCode
                 );
+        WeekDistribution weekDistribution =
+                weekDistributionEngine.distribute(
+                        dailyTarget,
+                        trainingDaysPerWeek,
+                        mealsPerDay
+                );
 
-        // 3️⃣ Distribuição semanal (internamente usa MealDistribution)
-        return weekDistributionEngine.distribute(
-                dailyTarget,
-                trainingDaysPerWeek,
-                mealsPerDay
+        DietPlan dietPlan = new DietPlan(
+                dailyTarget.getCalories(),
+                weekDistribution
         );
+
+        DomainValidationOrchestrator.validate(dietPlan);
+
+        return weekDistribution;
     }
 }
